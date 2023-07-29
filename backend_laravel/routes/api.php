@@ -20,8 +20,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/posts', [PostController::class, 'index']);
+
 Route::group(['prefix' => 'admin', 'middleware' => 'auth:admins'], function() {
     Route::post('/store', [PostController::class, 'store']);
+    Route::patch('/update/{post}', [PostController::class, 'update']);
+    Route::delete('/delete/{post}', [PostController::class, 'delete']);
 });
 
 Route::post('/login', [AdminController::class, 'login']);
