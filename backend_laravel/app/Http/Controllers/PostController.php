@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
+use App\Http\Resources\CommentResource;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Post;
@@ -64,10 +65,10 @@ class PostController extends Controller
     
     public function getComments($post_id)
     {
-        $comment = Comment::with('post')->wherePostId($post_id)->latest()->get();
+        $comments = Comment::with('post')->wherePostId($post_id)->latest()->get();
 
         return response([
-            'comment' => $comment
+            'comment' => CommentResource::collection($comments)
         ], 200);
     }
 
