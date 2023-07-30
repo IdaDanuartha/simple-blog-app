@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:frontend_flutter/controllers/post_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:get/get.dart';
+import 'package:frontend_flutter/constants/constants.dart';
 // Widgets
 import 'widgets/blog_widget.dart';
 
@@ -12,6 +14,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  final PostController _postController = Get.put(PostController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,22 +73,31 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               const SizedBox(height: 30),
-              const BlogWidget(
-                color: Colors.red,
-              ),
-              const SizedBox(height: 20),
-              const BlogWidget(
-                color: Colors.blue,
-              ),
-              const SizedBox(height: 20),
-              const BlogWidget(
-                color: Colors.green,
-              ),
-              const SizedBox(height: 20),
-              const BlogWidget(
-                color: Colors.purple,
-              ),
-              const SizedBox(height: 20),
+              RefreshIndicator(
+                onRefresh: () async {
+                  await _postController.getAllPosts();
+                },
+                child: Container(
+                  width: double.infinity,
+                  child: Obx(() {
+                    return _postController.isLoading.value ?
+                    const Center(child: CircularProgressIndicator())
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: _postController.posts.value.length,
+                        itemBuilder: (context, index) {
+                          return BlogWidget(
+                            title: _postController.posts.value[index].title,
+                            body: _postController.posts.value[index].body,
+                            image: '$postImageUrl${_postController.posts.value[index].image}',
+                            created_at: _postController.posts.value[index].createdAt.toIso8601String(),
+                          );
+                        }
+                      );
+                  }
+                  ),
+                ),
+              )
             ]
           ),
         ),

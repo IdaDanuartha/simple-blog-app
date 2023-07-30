@@ -3,10 +3,17 @@ import 'package:google_fonts/google_fonts.dart';
 
 class BlogWidget extends StatelessWidget {
   const BlogWidget({
-    super.key, required this.color,
+    super.key, 
+    required this.title,
+    required this.image,
+    required this.body,
+    required this.created_at,
   });
 
-  final Color color;
+  final String title;
+  final String image;
+  final String body;
+  final String created_at;
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +23,10 @@ class BlogWidget extends StatelessWidget {
           child: Container(
             height: 200,
             decoration: BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.circular(10)
-            ),
+              image: DecorationImage(
+                image: NetworkImage(image)
+              )
+            )
           ),
         ),
         const SizedBox(
@@ -28,11 +36,11 @@ class BlogWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('25 Feb', style: GoogleFonts.workSans(
+              Text(created_at, style: GoogleFonts.workSans(
                 fontSize: 15,
                 color: Colors.grey,
               )),
-              Text('How to code tutorial',
+              Text(title,
               style: GoogleFonts.workSans(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
