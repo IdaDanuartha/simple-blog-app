@@ -32,7 +32,7 @@ class PostController extends Controller
         $res = auth()->guard('admins')->user()->posts()->create([
             'title' => $request->title,
             'body' => $request->body,
-            'image' => $request->image,
+            'image' => $imageName,
         ]);
 
         if($res) {
@@ -51,7 +51,7 @@ class PostController extends Controller
         if($cat) {
             return response([
                 'message' => 'success'
-            ], 500);
+            ], 201);
         } else {
             return response([
                 'message' => 'success'
