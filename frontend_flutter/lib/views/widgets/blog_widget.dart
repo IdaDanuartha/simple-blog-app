@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:frontend_flutter/constants/constants.dart';
+import 'package:frontend_flutter/models/posts.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class BlogWidget extends StatelessWidget {
   const BlogWidget({
-    super.key, 
-    required this.title,
-    required this.image,
-    required this.body,
-    required this.created_at,
+    super.key,
+    required this.posts,
   });
 
-  final String title;
-  final String image;
-  final String body;
-  final String created_at;
+  final PostModel posts;  
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +21,7 @@ class BlogWidget extends StatelessWidget {
             height: 200,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(image)
+                image: NetworkImage('$postImageUrl${posts.image}')
               )
             )
           ),
@@ -36,11 +33,11 @@ class BlogWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(created_at, style: GoogleFonts.workSans(
+              Text(DateFormat.yMMMEd().format(posts.createdAt), style: GoogleFonts.workSans(
                 fontSize: 15,
                 color: Colors.grey,
               )),
-              Text(title,
+              Text(posts.title,
               style: GoogleFonts.workSans(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,

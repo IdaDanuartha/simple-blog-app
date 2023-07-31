@@ -31,4 +31,12 @@ class PostController extends GetxController {
       print(e.toString());
     }
   }
+
+  Future getComments(id) async {
+    try {
+      
+    } catch (e) {
+      
+    }
+  }
 }

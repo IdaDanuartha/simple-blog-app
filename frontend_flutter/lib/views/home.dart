@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_flutter/controllers/post_controller.dart';
+import 'package:frontend_flutter/views/details.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
-import 'package:frontend_flutter/constants/constants.dart';
 // Widgets
 import 'widgets/blog_widget.dart';
 
@@ -11,12 +11,13 @@ class HomePage extends StatefulWidget {
 
   @override
   State<HomePage> createState() => _HomePageState();
+
 }
 
 class _HomePageState extends State<HomePage> {
 
   final PostController _postController = Get.put(PostController());
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,11 +87,15 @@ class _HomePageState extends State<HomePage> {
                         shrinkWrap: true,
                         itemCount: _postController.posts.value.length,
                         itemBuilder: (context, index) {
-                          return BlogWidget(
-                            title: _postController.posts.value[index].title,
-                            body: _postController.posts.value[index].body,
-                            image: '$postImageUrl${_postController.posts.value[index].image}',
-                            created_at: _postController.posts.value[index].createdAt.toIso8601String(),
+                          return GestureDetector(
+                            onTap: () {
+                              Get.to(() => PostDetail(
+                                posts: _postController.posts.value[index],
+                              ));
+                            },
+                            child: BlogWidget(
+                              posts: _postController.posts.value[index],
+                            ),
                           );
                         }
                       );
